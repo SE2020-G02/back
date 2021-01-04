@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.SolveMapper">
+
+    <select id="selectRank" parameterType="list" resultType="com.seg02.oursudoku.entity.Solve">
+        select *
+        from solve
+        where problem_ID = #{problemId}
+        order by solve_cost_time
+    </select>
+
+    <select id="selectSolveCount" resultType="int">
+        select COUNT(problem_ID)
+        from solve
+        where problem_ID = #{Pid}
+    </select>
+
+    <insert id="insertSolve">
+        insert into solve (problem_ID, account_ID, solve_cost_time)
+        VALUES (#{Pid}, #{Aid}, #{time})
+    </insert>
+
+    <select id="selectSolve" resultType="boolean">
+        select problem_ID, account_ID, solve_cost_time
+        from solve
+        where account_ID = #{Aid}
+          and problem_ID = #{Pid}
+    </select>
+
+    <select id="selectMinSolve" resultType="integer">
+        select MIN(solve_cost_time)
+        from solve
+        where problem_ID = #{Pid}
+    </select>
+</mapper>

@@ -1,0 +1,15 @@
+# DataSource Config
+spring:
+  datasource:
+    url: 
+    username: 
+    password: 
+  security:
+    user:
+      name: 
+      password: 
+      roles: 
+server:
+  port: 
+
+

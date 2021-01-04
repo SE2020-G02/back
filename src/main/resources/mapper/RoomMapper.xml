@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.RoomMapper">
+
+    <insert id="creatRoom">
+        insert into room (room_ID, problem_ID, account_ID, room_start_time, room_running_time, room_level, room_state)
+        VALUES (#{Rid}, #{Pid}, #{Aid}, #{RST}, #{RRT}, #{level}, #{state})
+    </insert>
+
+    <select id="selectMaxRid" resultType="int">
+        select MAX(room_ID)
+        from room
+    </select>
+
+    <select id="selectRoomByLevel" parameterType="list" resultType="com.seg02.oursudoku.entity.Room">
+        select room_ID, problem_ID, account_ID, room_start_time, room_running_time, room_level, room_state
+        from room
+        where room_level = #{level}
+          and room_ID not in (
+            select room_ID
+            from room_member
+            where room.account_ID = #{Aid}
+        )
+    </select>
+
+    <select id="selectByState" resultType="com.seg02.oursudoku.entity.Room">
+        select room_ID, problem_ID, account_ID, room_start_time, room_running_time, room_level, room_state
+        from room
+        where room_state = #{roomState}
+          and room_ID in (
+            select room_member.room_ID
+            from room_member
+            where room.account_ID = #{Aid}
+        )
+    </select>
+</mapper>

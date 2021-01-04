@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.ProblemMapper">
+    <select id="selectProblemPage" parameterType="list" resultType="com.seg02.oursudoku.entity.Problem">
+        SELECT *
+        FROM problem
+        WHERE problem_level = #{level}
+    </select>
+
+    <insert id="insertProblem">
+        insert into problem (problem_ID, problem_level, problem_panes, problem_info)
+        VALUES (#{id}, #{level}, #{panes}, #{info});
+    </insert>
+
+    <select id="selectMaxId" resultType="int">
+        select MAX(problem_ID)
+        from problem
+    </select>
+
+    <select id="selectProblemByLevel" parameterType="list" resultType="string">
+        select problem_ID
+        from problem
+        where problem_level = #{level}
+    </select>
+
+    <select id="selectByPid" resultType="com.seg02.oursudoku.entity.Problem">
+        select problem_ID, problem_level, problem_panes, problem_info
+        from problem
+        where problem_ID = #{Pid}
+    </select>
+
+    <select id="selectProblemByAid" parameterType="list" resultType="string">
+        select problem_ID
+        from problem
+        where problem_ID not in (
+            select problem_ID
+            from solve
+            where solve.account_ID = #{Aid}
+        ) and problem_level in (
+            select account_level
+            from account
+            where account_ID = #{Aid}
+        )
+    </select>
+</mapper>

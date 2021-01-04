@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.RoomMemberMapper">
+    <insert id="join">
+        insert into room_member (room_ID, account_ID, timecost, percentage)
+        VALUES (#{Rid}, #{Aid}, 0, 0.00)
+    </insert>
+
+    <delete id="quit">
+        delete
+        from room_member
+        where room_ID = #{Rid}
+          and account_ID = #{Aid}
+    </delete>
+
+    <select id="selectByRA" resultType="com.seg02.oursudoku.entity.RoomMember">
+        select room_ID, account_ID, timecost, percentage
+        from room_member
+        where room_ID = #{Rid}
+          and account_ID = #{AId}
+    </select>
+
+    <update id="updateMessage">
+        update room_member
+        set timecost   = #{timecost},
+            percentage = #{percentage}
+        where room_ID = #{Rid}
+          and account_ID = #{Aid}
+    </update>
+
+    <select id="selectMessage" parameterType="list" resultType="com.seg02.oursudoku.entity.RoomMember">
+        select room_ID, account_ID, timecost, percentage
+        from room_member
+        where room_ID = #{Rid}
+        order by percentage desc, timecost
+    </select>
+
+    <select id="selectNames" parameterType="list" resultType="string">
+        select account_nickname
+        from account
+        where account_ID in (
+            select account_ID
+            from room_member
+            where room_ID = #{Rid}
+        )
+    </select>
+</mapper>

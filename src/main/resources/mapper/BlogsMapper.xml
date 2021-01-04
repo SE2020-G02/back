@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.BlogsMapper">
+
+    <select id="selectByPid" resultType="com.seg02.oursudoku.entity.Blogs">
+        select blog_ID, blo_blog_ID, problem_ID, blog_message, blog_update_time
+        from blogs
+        where problem_ID = #{Pid}
+        limit 1
+    </select>
+
+    <select id="selectByBid" resultType="com.seg02.oursudoku.entity.Blogs">
+        select blog_ID, blo_blog_ID, problem_ID, blog_message, blog_update_time
+        from blogs
+        where blog_ID = #{Bid}
+    </select>
+
+    <select id="selectAllByPid" parameterType="list" resultType="string">
+        select blog_ID
+        from blogs
+        where problem_ID = #{Pid}
+    </select>
+
+    <select id="selectAid" resultType="string">
+        select account_ID
+        from account_blog_relation
+        where blog_ID = #{Bid}
+    </select>
+
+    <select id="selectPid" resultType="string">
+        select problem_ID
+        from blogs
+        where blog_ID = #{Bid}
+    </select>
+
+    <select id="selectMaxBid" resultType="int">
+        select COUNT(blog_ID)
+        from blogs
+    </select>
+
+    <insert id="insertBlog">
+        insert into blogs (blog_ID, blo_blog_ID, problem_ID, blog_message, blog_update_time)
+        VALUES (#{Bid}, #{BBid}, #{Pid}, #{Message}, now())
+    </insert>
+
+    <insert id="insertBlogRelation">
+        insert into account_blog_relation (blog_ID, account_ID, relation_type, relation_state)
+        VALUES (#{Bid}, #{Aid}, #{type}, #{state})
+    </insert>
+
+</mapper>
