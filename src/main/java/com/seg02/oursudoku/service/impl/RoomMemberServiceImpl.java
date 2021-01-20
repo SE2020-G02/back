@@ -1,8 +1,11 @@
 package com.seg02.oursudoku.service.impl;
 
+import com.seg02.oursudoku.entity.Room;
 import com.seg02.oursudoku.entity.RoomMember;
 import com.seg02.oursudoku.info.RoomMemberInfo;
 import com.seg02.oursudoku.mapper.AccountMapper;
+import com.seg02.oursudoku.mapper.RewardMapper;
+import com.seg02.oursudoku.mapper.RoomMapper;
 import com.seg02.oursudoku.mapper.RoomMemberMapper;
 import com.seg02.oursudoku.service.IRoomMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,6 +32,9 @@ public class RoomMemberServiceImpl implements IRoomMemberService {
 	@Resource
 	AccountMapper accountMapper;
 
+	@Resource
+	RoomMapper roomMapper;
+
 
 	@Override
 	public Boolean roomJoin(Integer roomId, String accountId) {
@@ -38,12 +44,19 @@ public class RoomMemberServiceImpl implements IRoomMemberService {
 
 	@Override
 	public Boolean roomQuit(Integer roomId, String accountId) {
-		if (roomMemberMapper.selectByRA(roomId, accountId) != null) {
-			roomMemberMapper.quit(roomId, accountId);
-			return roomMemberMapper.selectByRA(roomId, accountId) == null;
+		if (!(roomMapper.selectByRid(roomId).getAccountId().equals(accountId))) {
+			if (roomMemberMapper.selectByRA(roomId, accountId) != null) {
+				roomMemberMapper.quit(roomId, accountId);
+				return roomMemberMapper.selectByRA(roomId, accountId) == null;
+			} else {
+				return false;
+			}
 		} else {
-			return false;
+			roomMemberMapper.deleteRid(roomId);
+			roomMapper.deleteRid(roomId);
+			return true;
 		}
+
 	}
 
 	@Override
@@ -57,7 +70,14 @@ public class RoomMemberServiceImpl implements IRoomMemberService {
 	}
 
 	@Override
-	public List<RoomMemberInfo> getMessage(Integer roomId) {
+	public Boolean getMessage(Integer roomId, String accountId) {
+		RoomMember roomMember = roomMemberMapper.selectByRA(roomId, accountId);
+		return roomMember.getPercentage() != 100;
+	}
+
+
+	@Override
+	public List<RoomMemberInfo> getMessages(Integer roomId) {
 		List<RoomMember> roomMemberList = roomMemberMapper.selectMessage(roomId);
 		List<RoomMemberInfo> roomMemberInfoList = new ArrayList<RoomMemberInfo>();
 		for (int i = 0; i < roomMemberList.size(); i++) {
@@ -66,6 +86,7 @@ public class RoomMemberServiceImpl implements IRoomMemberService {
 			info.setRoomId(roomMemberList.get(i).getRoomId());
 			info.setPercentage(roomMemberList.get(i).getPercentage());
 			info.setTimecost(roomMemberList.get(i).getTimecost());
+			info.setRankNum(i + 1);
 			roomMemberInfoList.add(info);
 		}
 		return roomMemberInfoList;
@@ -75,4 +96,6 @@ public class RoomMemberServiceImpl implements IRoomMemberService {
 	public List<String> getRoomMessage(Integer roomId) {
 		return roomMemberMapper.selectNames(roomId);
 	}
+
+
 }

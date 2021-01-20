@@ -20,14 +20,14 @@ public interface IRateService extends IService<Rate> {
 	/**
 	 * 获取第ratePage页的rateCount个排行榜
 	 *
-	 * @param ratePage
-	 * @param rateCount
 	 * @return
 	 */
-	public List<RateInfo> getByCount(Integer ratePage, Integer rateCount);
+	public List<RateInfo> getByCount();
 
 	public Integer getPageCount(Integer rateCount);
 
 	public RateStaticRes getStaticMessage();
+
+	public void Refresh();
 
 }

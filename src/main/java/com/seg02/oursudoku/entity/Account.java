@@ -52,4 +52,10 @@ public class Account implements Serializable {
 		MyBeanUtils.copyProperties(accountInfo, this);
 	}
 
+	public AccountInfo change() {
+		AccountInfo accountInfo = new AccountInfo();
+		MyBeanUtils.copyProperties(this, accountInfo);
+		return accountInfo;
+	}
+
 }

@@ -75,12 +75,26 @@ public class ProblemServiceImpl extends ServiceImpl<ProblemMapper, Problem> impl
 	@Override
 	public ProblemInfo findRandom(String Aid) {
 		List<String> Pids = problemMapper.selectProblemByAid(Aid);
-		return problemMapper.selectByPid(Pids.get((int) (Math.random() % Pids.size()))).change();
+		Problem problem = problemMapper.selectByPid(Pids.get((int) (Math.random() % Pids.size())));
+		if (problem != null) {
+			return problem.change();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Boolean creatProblem(ProblemInfo problemInfo) {
-		problemMapper.insertProblem(problemInfo.getProblemId(),0,problemInfo.getProblemPanes(),problemInfo.getProblemInfo());
-		return problemMapper.selectByPid(problemInfo.getProblemId())!=null;
+		problemInfo.setProblemId(String.valueOf(problemMapper.selectMaxId()+1));
+		problemMapper.insertProblem(problemInfo.getProblemId(), 0, problemInfo.getProblemPanes(), problemInfo.getProblemInfo());
+		return problemMapper.selectByPid(problemInfo.getProblemId()) != null;
+	}
+
+	@Override
+	public Boolean judge(String problemPanes) {
+//		return true;
+
+		Problem problem = problemMapper.judge(problemPanes);
+		return problem == null;
 	}
 }

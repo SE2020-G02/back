@@ -14,7 +14,6 @@ import com.seg02.oursudoku.util.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -39,8 +38,8 @@ public class AccountController {
 	 * @param req:用户id+用户密码
 	 * @return：登录信息+用户信息
 	 */
+	@CrossOrigin
 	@PostMapping("/login")
-	@ResponseBody
 	public ResultBean<AccountRes> login(@RequestBody AccountLoginReq req) {
 		AccountRes account = new AccountRes();
 		account.setAccountInfo(iAccountService.findByNickname(req.getAccountNickname()));
@@ -68,41 +67,44 @@ public class AccountController {
 	 * @param req：用户昵称+用户手机号+用户密码
 	 * @return：注册信息+用户信息
 	 */
+	@CrossOrigin
 	@PostMapping("/register")
 	public ResultBean<AccountRes> register(@RequestBody AccountRegisterReq req) {
-		ResultBean<AccountRes> res = new ResultBean<AccountRes>();
-		if (iAccountService.findByNickname(req.getAccountNickname()) == null) {
-			if (iAccountService.findPhone(req.getAccountPhone())) {
-				AccountInfo accountInfo = new AccountInfo();
-				accountInfo.setAccountId(iAccountService.findAID());
-				accountInfo.setAccountPwd(MD5Util.md5(req.getAccountPwd()));
-				accountInfo.setAccountNickname(req.getAccountNickname());
-				accountInfo.setAccountPhone(req.getAccountPhone());
-				accountInfo.setAccountSignature("这个人很懒，什么都没写");
-				accountInfo.setAccountSex("男");
-				accountInfo.setAccountLevel(1);
+//		synchronized (this) {
+			ResultBean<AccountRes> res = new ResultBean<AccountRes>();
+			if (iAccountService.findByNickname(req.getAccountNickname()) == null) {
+				if (iAccountService.findPhone(req.getAccountPhone())) {
+					AccountInfo accountInfo = new AccountInfo();
+					accountInfo.setAccountId(iAccountService.findAID());
+					accountInfo.setAccountPwd(MD5Util.md5(req.getAccountPwd()));
+					accountInfo.setAccountNickname(req.getAccountNickname());
+					accountInfo.setAccountPhone(req.getAccountPhone());
+					accountInfo.setAccountSignature("这个人很懒，什么都没写");
+					accountInfo.setAccountSex("男");
+					accountInfo.setAccountLevel(1);
 
-				AccountRes accountRes = new AccountRes();
-				accountRes.setAccountInfo(accountInfo);
-				res.setData(accountRes);
-				if (iAccountService.insertAccount(accountInfo)) {
-					res.setMsg("注册成功");
-					res.setCode(ResultBean.SUCCESS);
+					AccountRes accountRes = new AccountRes();
+					accountRes.setAccountInfo(accountInfo);
+					res.setData(accountRes);
+					if (iAccountService.insertAccount(accountInfo)) {
+						res.setMsg("注册成功");
+						res.setCode(ResultBean.SUCCESS);
+					} else {
+						res.setMsg("注册失败");
+						res.setCode(ResultBean.FAIL);
+					}
 				} else {
-					res.setMsg("注册失败");
+					res.setData(null);
 					res.setCode(ResultBean.FAIL);
+					res.setMsg("手机号已注册");
 				}
 			} else {
-				res.setData(null);
+				res.setMsg("用户名已存在");
 				res.setCode(ResultBean.FAIL);
-				res.setMsg("手机号已注册");
+				res.setData(null);
 			}
-		} else {
-			res.setMsg("用户名已存在");
-			res.setCode(ResultBean.FAIL);
-			res.setData(null);
-		}
-		return res;
+			return res;
+//		}
 	}
 
 	/**
@@ -112,6 +114,7 @@ public class AccountController {
 	 * @param req：用户id+旧密码+新密码
 	 * @return：修改信息+用户信息
 	 */
+	@CrossOrigin
 	@PostMapping("/updatePwd")
 	public ResultBean<AccountRes> updatePwd(@RequestBody AccountUpdatePwdReq req) {
 		ResultBean<AccountRes> res = new ResultBean<AccountRes>();
@@ -147,6 +150,7 @@ public class AccountController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/public/message")
 	public ResultBean<AccountPublicMessageRes> getPublicMessage(@RequestBody AccountPublicMessageReq req) {
 		AccountPublic accountPublic = iAccountService.findPublicMessage(req.getAccountId());
@@ -162,6 +166,7 @@ public class AccountController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/reset")
 	public ResultBean<Boolean> resetPwd(@RequestBody ResetPwdReq req) {
 		ResultBean<Boolean> res = new ResultBean<Boolean>();

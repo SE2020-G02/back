@@ -40,4 +40,5 @@ public interface IProblemService extends IService<Problem> {
 
 	public Boolean creatProblem(ProblemInfo problemInfo);
 
+	public Boolean judge(String problemPanes);
 }

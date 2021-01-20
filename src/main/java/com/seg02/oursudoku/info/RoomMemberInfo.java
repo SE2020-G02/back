@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class RoomMemberInfo {
+	private Integer rankNum;
+
 	private Integer roomId;
 
 	private String accountNickname;

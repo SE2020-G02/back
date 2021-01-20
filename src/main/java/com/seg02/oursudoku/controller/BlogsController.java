@@ -14,11 +14,7 @@ import com.seg02.oursudoku.service.IAccountService;
 import com.seg02.oursudoku.service.IBlogsService;
 import com.seg02.oursudoku.util.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +37,7 @@ public class BlogsController {
 	@Autowired
 	IAccountService iAccountService;
 
+	@CrossOrigin
 	@PostMapping("/display")
 	public ResultBean<BlogRes> getBlog(@RequestBody BlogReq req) {
 		ResultBean<BlogRes> res = new ResultBean<BlogRes>();
@@ -72,6 +69,7 @@ public class BlogsController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/all")
 	public ResultBean<BlogsRes> getAllBlog(@RequestBody ProblemMessageReq req) {
 		ResultBean<BlogsRes> res = new ResultBean<BlogsRes>();
@@ -96,6 +94,7 @@ public class BlogsController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/creat")
 	public ResultBean<BlogCreatRes> creatBlog(@RequestBody BlogCreatReq req) {
 		ResultBean<BlogCreatRes> res = new ResultBean<BlogCreatRes>();

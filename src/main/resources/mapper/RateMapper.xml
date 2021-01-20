@@ -5,9 +5,7 @@
     <select id="selectByCount" parameterType="list" resultType="com.seg02.oursudoku.entity.Rate">
         select rate_id, account_ID, rate_game_count, rate_avg_time, rate_number, rate_state
         from rate
-        where rate_id > (#{rateCount} - 1) * #{rateCount}
         order by rate_id
-        limit #{rateCount}
     </select>
 
     <select id="selectRateCount" resultType="int">
@@ -24,4 +22,31 @@
         select game_people
         from static_info
     </select>
+
+    <delete id="clear">
+        delete
+        from rate
+    </delete>
+
+    <insert id="insertList" parameterType="list">
+        INSERT INTO oursudoku.rate (rate_id, account_ID, rate_game_count, rate_avg_time, rate_number, rate_state)
+        VALUES
+        <foreach collection="list" item="ri" index="index" separator=",">
+            (
+            #{ri.rateId},
+            #{ri.accountId},
+            #{ri.rateGameCount},
+            #{ri.rateAvgTime},
+            #{ri.rateNumber},
+            #{ri.rateState}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateInfo">
+        update static_info
+        set game_count  = game_count + #{gc},
+            game_people = game_people + #{pc}
+        where id = 1
+    </update>
 </mapper>

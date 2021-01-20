@@ -32,4 +32,7 @@ public interface BlogsMapper extends BaseMapper<Blogs> {
 
 	void insertBlogRelation(@Param("Bid") String Bid, @Param("Aid") String Aid, @Param("type") String type, @Param("state") String state);
 
+	void deleteRByBid(@Param("Bid") String Bid);
+
+	void deleteBByBid(@Param("Bid") String Bid);
 }

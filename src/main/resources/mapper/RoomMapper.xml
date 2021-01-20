@@ -16,11 +16,7 @@
         select room_ID, problem_ID, account_ID, room_start_time, room_running_time, room_level, room_state
         from room
         where room_level = #{level}
-          and room_ID not in (
-            select room_ID
-            from room_member
-            where room.account_ID = #{Aid}
-        )
+          and room_state != '已结束'
     </select>
 
     <select id="selectByState" resultType="com.seg02.oursudoku.entity.Room">
@@ -30,7 +26,25 @@
           and room_ID in (
             select room_member.room_ID
             from room_member
-            where room.account_ID = #{Aid}
+            where room_member.account_ID = #{Aid}
         )
     </select>
+
+    <update id="changeState">
+        update room
+        set room_state = #{cState}
+        where room_ID = #{Rid}
+    </update>
+
+    <select id="selectByRid" resultType="com.seg02.oursudoku.entity.Room">
+        select room_ID, problem_ID, account_ID, room_start_time, room_running_time, room_level, room_state
+        from room
+        where room_ID = #{Rid}
+    </select>
+
+    <delete id="deleteRid">
+        delete
+        from room
+        where room_ID = #{Rid}
+    </delete>
 </mapper>

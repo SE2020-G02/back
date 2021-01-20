@@ -9,6 +9,8 @@ public class RateInfo {
 
 	private String accountId;
 
+	private String accountNickname;
+
 	private Integer rateGameCount;
 
 	private Integer rateAvgTime;
@@ -16,5 +18,7 @@ public class RateInfo {
 	private Integer rateNumber;
 
 	private String rateState;
+
+	private Integer accountLevel;
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seg02.oursudoku.mapper.UserAppealMapper">
+
+    <select id="selectMaxAppealId" resultType="int">
+        select COUNT(appeal_ID)
+        from user_appeal
+    </select>
+
+    <select id="selectByState" parameterType="list" resultType="com.seg02.oursudoku.entity.UserAppeal">
+        select appeal_ID, account_ID, appeal_state, appeal_message, appeal_type, appeal_type_ID
+        from user_appeal
+        where appeal_state = #{state}
+    </select>
+
+    <update id="updateState">
+        update user_appeal
+        set appeal_state = #{state}
+        where appeal_ID = #{Aid}
+    </update>
+</mapper>

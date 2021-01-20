@@ -9,11 +9,7 @@ import com.seg02.oursudoku.res.RateStaticRes;
 import com.seg02.oursudoku.service.IRateService;
 import com.seg02.oursudoku.util.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -30,10 +26,11 @@ public class RateController {
 	@Autowired
 	IRateService iRateService;
 
+	@CrossOrigin
 	@PostMapping("/limit")
-	public ResultBean<RateLimitRes> rateLimit(@RequestBody RateLimitReq req) {
+	public ResultBean<RateLimitRes> rateLimit() {
 		RateLimitRes rateLimitRes = new RateLimitRes();
-		rateLimitRes.setRateInfoList(iRateService.getByCount(req.getRatePage(), req.getRateCount()));
+		rateLimitRes.setRateInfoList(iRateService.getByCount());
 		ResultBean<RateLimitRes> res = new ResultBean<RateLimitRes>();
 		res.setData(rateLimitRes);
 		res.setMsg("获取成功");
@@ -41,17 +38,19 @@ public class RateController {
 		return res;
 	}
 
-	@PostMapping("/pageCount")
-	public ResultBean<RatePageCountRes> pageCount(@RequestBody RatePageCountReq req) {
-		RatePageCountRes ratePageCountRes = new RatePageCountRes();
-		ratePageCountRes.setPageCount(iRateService.getPageCount(req.getRateCount()));
-		ResultBean<RatePageCountRes> res = new ResultBean<RatePageCountRes>();
-		res.setData(ratePageCountRes);
-		res.setMsg("查询成功");
-		res.setCode(ResultBean.FAIL);
-		return res;
-	}
+//	@CrossOrigin
+//	@PostMapping("/pageCount")
+//	public ResultBean<RatePageCountRes> pageCount(@RequestBody RatePageCountReq req) {
+//		RatePageCountRes ratePageCountRes = new RatePageCountRes();
+//		ratePageCountRes.setPageCount(iRateService.getPageCount(req.getRateCount()));
+//		ResultBean<RatePageCountRes> res = new ResultBean<RatePageCountRes>();
+//		res.setData(ratePageCountRes);
+//		res.setMsg("查询成功");
+//		res.setCode(ResultBean.FAIL);
+//		return res;
+//	}
 
+	@CrossOrigin
 	@PostMapping("/static")
 	public ResultBean<RateStaticRes> staticMessage() {
 		ResultBean<RateStaticRes> res = new ResultBean<RateStaticRes>();

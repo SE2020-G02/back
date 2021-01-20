@@ -24,4 +24,7 @@ public interface RewardMapper extends BaseMapper<Reward> {
 	public int selectMaxRid();
 
 	public Reward selectByRid(@Param("Rid") String Rid);
+
+	public void updateState(@Param("Rid") String Rid);
+
 }

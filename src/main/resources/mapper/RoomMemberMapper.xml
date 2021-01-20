@@ -44,4 +44,30 @@
             where room_ID = #{Rid}
         )
     </select>
+
+    <delete id="deleteRid">
+        delete
+        from room_member
+        where room_ID = #{Rid}
+    </delete>
+
+    <select id="selectEndRoom" parameterType="list" resultType="com.seg02.oursudoku.entity.RoomMemberEnd">
+        select room_member.room_ID, room_member.account_ID, timecost, percentage, room.room_running_time
+        from room_member
+                 left join room on room_member.room_ID = room.room_ID
+        where room.room_ID = room_member.room_ID
+          and room.room_state = '已结束'
+          and room_member.room_ID not in (
+            select room_fresh.room_Id
+            from room_fresh
+        )
+        order by room.room_start_time, percentage desc, timecost
+    </select>
+
+    <insert id="refresh">
+        insert into room_fresh (room_Id) value (#{Rid})
+    </insert>
+
+
+
 </mapper>

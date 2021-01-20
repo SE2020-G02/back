@@ -23,4 +23,10 @@
         from reward
         where reward_ID = #{Rid}
     </select>
+
+    <update id="updateState">
+        update reward
+        set reward_state = '已做出'
+        where reward_ID = #{Rid}
+    </update>
 </mapper>

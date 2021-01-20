@@ -1,15 +1,15 @@
 # DataSource Config
 spring:
   datasource:
-    url: 
-    username: 
-    password: 
+    url: jdbc:mysql://47.110.132.41:3306/oursudoku
+    username: root
+    password: seg02
   security:
     user:
-      name: 
-      password: 
-      roles: 
+      name: user
+      password: pwd
+      roles: zx
 server:
-  port: 
+  port: 8081
 
 

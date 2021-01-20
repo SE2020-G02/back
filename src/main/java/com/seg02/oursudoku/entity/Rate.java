@@ -42,5 +42,23 @@ public class Rate implements Serializable {
 		return ans;
 	}
 
+	public void addGameCount() {
+		this.rateGameCount += 1;
+	}
 
+	public void addAvgTime(Integer num) {
+		this.rateAvgTime += num;
+	}
+
+	public int compareTo(Rate rate) {
+		if (!rate.getRateNumber().equals(this.getRateNumber())) {
+			return rate.getRateNumber() - this.getRateNumber();
+		} else if (!rate.getRateAvgTime().equals(this.getRateAvgTime())) {
+			return rate.getRateAvgTime() - this.getRateAvgTime();
+		} else if (!rate.getRateGameCount().equals(this.getRateGameCount())) {
+			return rate.getRateGameCount() - this.getRateGameCount();
+		} else {
+			return 0;
+		}
+	}
 }

@@ -36,10 +36,17 @@
             select problem_ID
             from solve
             where solve.account_ID = #{Aid}
-        ) and problem_level in (
+        )
+          and problem_level in (
             select account_level
             from account
             where account_ID = #{Aid}
         )
+    </select>
+
+    <select id="judge" resultType="com.seg02.oursudoku.entity.Problem">
+        select problem_ID, problem_level, problem_panes, problem_info
+        from problem
+        where problem_panes = #{panes}
     </select>
 </mapper>

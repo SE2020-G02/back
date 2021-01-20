@@ -22,7 +22,7 @@ public class MD5Util {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(MD5Util.md5("000000"));
+		System.out.println(MD5Util.md5("pwd"));
 	}
 
 }

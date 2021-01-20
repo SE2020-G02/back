@@ -46,5 +46,11 @@ public interface RoomMapper extends BaseMapper<Room> {
 	 */
 	public List<Room> selectRoomByLevel(@Param("level") Integer level, @Param("Aid") String Aid);
 
-	public Room selectByState(@Param("Aid") String Aid, @Param("roomState") String roomState);
+	public List<Room> selectByState(@Param("roomState") String roomState, @Param("Aid") String Aid);
+
+	public void changeState(@Param("Rid") Integer Rid, @Param("cState") String cState);
+
+	public Room selectByRid(@Param("Rid") Integer Rid);
+
+	public void deleteRid(@Param("Rid") Integer Rid);
 }

@@ -28,15 +28,23 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Override
 	public AccountInfo findByNickname(String accountNickname) {
-		LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<Account>();
-		wrapper.eq(Account::getAccountNickname, accountNickname);
+//		LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<Account>();
+//		wrapper.eq(Account::getAccountNickname, accountNickname);
+//
+//		List<Account> list = accountMapper.selectList(wrapper);
+//		if (list.size() > 0) {
+//			return new AccountInfo(list.get(0));
+//		} else {
+//			return null;
+//		}
 
-		List<Account> list = accountMapper.selectList(wrapper);
-		if (list.size() > 0) {
-			return new AccountInfo(list.get(0));
+		Account account = accountMapper.selectByName(accountNickname);
+		if (account != null) {
+			return account.change();
 		} else {
 			return null;
 		}
+
 	}
 
 	@Override
@@ -57,7 +65,9 @@ public class AccountServiceImpl implements IAccountService {
 
 	@Override
 	public String findAID() {
-		return String.valueOf(Integer.parseInt(accountMapper.selectMaxId()) + 1);
+		accountMapper.updateMaxID();
+		int id = Integer.parseInt(accountMapper.selectMaxId());
+		return String.valueOf(id);
 	}
 
 	@Override

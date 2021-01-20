@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface RateMapper extends BaseMapper<Rate> {
 
-	List<Rate> selectByCount(@Param("ratePage") Integer ratePage, @Param("rateCount") Integer rateCount);
+	List<Rate> selectByCount();
 
 	int selectRateCount();
 
@@ -24,4 +24,9 @@ public interface RateMapper extends BaseMapper<Rate> {
 
 	int getGamePeople();
 
+	void clear();
+
+	void insertList(List<Rate> rateList);
+
+	public void updateInfo(@Param("gc") Integer gc, @Param("pc") Integer pc);
 }

@@ -44,7 +44,7 @@ public interface SolveMapper extends BaseMapper<Solve> {
 	 * @param Pid
 	 * @return
 	 */
-	public Boolean selectSolve(@Param("Aid") String Aid, @Param("Pid") String Pid);
+	public Integer selectSolve(@Param("Aid") String Aid, @Param("Pid") String Pid);
 
 	public Integer selectMinSolve(@Param("Pid") String Pid);
 }

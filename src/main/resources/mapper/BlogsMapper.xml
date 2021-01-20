@@ -34,7 +34,7 @@
     </select>
 
     <select id="selectMaxBid" resultType="int">
-        select COUNT(blog_ID)
+        select MAX(blog_ID)
         from blogs
     </select>
 
@@ -47,5 +47,17 @@
         insert into account_blog_relation (blog_ID, account_ID, relation_type, relation_state)
         VALUES (#{Bid}, #{Aid}, #{type}, #{state})
     </insert>
+
+    <delete id="deleteRByBid">
+        delete
+        from account_blog_relation
+        where blog_ID = #{Bid};
+    </delete>
+
+    <delete id="deleteBByBid">
+        delete
+        from blogs
+        where blog_ID = #{Bid};
+    </delete>
 
 </mapper>

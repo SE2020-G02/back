@@ -13,11 +13,7 @@ import com.seg02.oursudoku.service.IProblemService;
 import com.seg02.oursudoku.service.ISolveService;
 import com.seg02.oursudoku.util.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,6 +33,7 @@ public class ProblemController {
 	@Autowired
 	ISolveService iSolveService;
 
+	@CrossOrigin
 	@PostMapping("/page")
 	public ResultBean<ProblemPageRes> problemPage(@RequestBody ProblemChooseReq req) {
 		ResultBean<ProblemPageRes> res = new ResultBean<ProblemPageRes>();
@@ -48,6 +45,7 @@ public class ProblemController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/insert/problems")
 	public ResultBean<Boolean> insertProblems(@RequestBody ProblemsInsertReq req) {
 		Boolean ans = iProblemService.insertProblems(req.getPath(), req.getProblemLevel());
@@ -63,24 +61,32 @@ public class ProblemController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/message")
 	public ResultBean<ProblemRes> getMessage(@RequestBody ProblemMessageReq req) {
 		ResultBean<ProblemRes> res = new ResultBean<ProblemRes>();
 		ProblemRes problemRes = new ProblemRes();
 		ProblemInfo problemInfo = iProblemService.findByPid(String.format("%04d", Integer.parseInt(req.getProblemId())));
-		problemInfo.setProblemSolveCount(iSolveService.getSolveCount(String.format("%04d", Integer.parseInt(req.getProblemId()))));
-		problemRes.setProblemInfo(problemInfo);
-		res.setData(problemRes);
-		if (res.getData() != null) {
-			res.setMsg("获取成功");
-			res.setCode(ResultBean.SUCCESS);
+		if (problemInfo != null && !req.getProblemId().equals("0000")) {
+			problemInfo.setProblemSolveCount(iSolveService.getSolveCount(String.format("%04d", Integer.parseInt(req.getProblemId()))));
+			problemRes.setProblemInfo(problemInfo);
+			res.setData(problemRes);
+			if (res.getData() != null) {
+				res.setMsg("获取成功");
+				res.setCode(ResultBean.SUCCESS);
+			} else {
+				res.setMsg("获取失败");
+				res.setCode(ResultBean.FAIL);
+			}
 		} else {
-			res.setMsg("获取失败");
+			res.setData(null);
 			res.setCode(ResultBean.FAIL);
+			res.setMsg("题目不存在");
 		}
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/random")
 	public ResultBean<ProblemRandomRes> getRandom(@RequestBody AccountPublicMessageReq req) {
 		ProblemRandomRes problemRandomRes = new ProblemRandomRes();

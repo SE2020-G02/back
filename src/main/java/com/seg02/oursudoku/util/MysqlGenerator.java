@@ -56,11 +56,11 @@ public class MysqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("");
+        dsc.setUrl("jdbc:mysql://47.110.132.41:3306/oursudoku");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("");
-        dsc.setPassword("");
+        dsc.setUsername("root");
+        dsc.setPassword("seg02");
         mpg.setDataSource(dsc);
 
 

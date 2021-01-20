@@ -5,10 +5,4 @@ import lombok.Data;
 @Data
 public class RoomMemberReq {
 	private Integer roomId;
-
-	private String accountId;
-
-	private Integer timecost;
-
-	private Double percentage;
 }

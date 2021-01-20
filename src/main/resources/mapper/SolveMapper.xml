@@ -20,8 +20,8 @@
         VALUES (#{Pid}, #{Aid}, #{time})
     </insert>
 
-    <select id="selectSolve" resultType="boolean">
-        select problem_ID, account_ID, solve_cost_time
+    <select id="selectSolve" resultType="int">
+        select solve_cost_time
         from solve
         where account_ID = #{Aid}
           and problem_ID = #{Pid}

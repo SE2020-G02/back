@@ -2,6 +2,7 @@ package com.seg02.oursudoku.mapper;
 
 import com.seg02.oursudoku.entity.RoomMember;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.seg02.oursudoku.entity.RoomMemberEnd;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,4 +28,10 @@ public interface RoomMemberMapper extends BaseMapper<RoomMember> {
 	public List<RoomMember> selectMessage(@Param("Rid") Integer Rid);
 
 	public List<String> selectNames(@Param("Rid") Integer Rid);
+
+	public void deleteRid(@Param("Rid") Integer Rid);
+
+	public List<RoomMemberEnd> selectEndRoom();
+
+	public void refresh(@Param("Rid") Integer Rid);
 }

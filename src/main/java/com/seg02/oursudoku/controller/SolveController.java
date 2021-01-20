@@ -12,11 +12,7 @@ import com.seg02.oursudoku.service.IAccountService;
 import com.seg02.oursudoku.service.ISolveService;
 import com.seg02.oursudoku.util.ResultBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +35,7 @@ public class SolveController {
 	@Autowired
 	IAccountService iAccountService;
 
+	@CrossOrigin
 	@PostMapping("/rank")
 	public ResultBean<SolveRankRes> solveRank(@RequestBody SolveRankReq req) {
 		List<Solve> solveList = iSolveService.getRank(req.getProblemId());
@@ -64,38 +61,31 @@ public class SolveController {
 		return res;
 	}
 
+	@CrossOrigin
 	@PostMapping("/submit")
 	public ResultBean<Boolean> solveSubmit(@RequestBody SolveSubmitReq req) {
 		ResultBean<Boolean> ans = new ResultBean<Boolean>();
-		if (iSolveService.solveJudge(req.getAccountId(), req.getProblemId())) {
-			if (req.cmp()) {
-				SolveInfo solveInfo = new SolveInfo();
-				solveInfo.setProblemId(req.getProblemId());
-				solveInfo.setAccountId(req.getAccountId());
-				solveInfo.setSolveCostTime(req.getSolveCostTime());
+		if (req.cmp()) {
+			SolveInfo solveInfo = new SolveInfo();
+			solveInfo.setProblemId(req.getProblemId());
+			solveInfo.setAccountId(req.getAccountId());
+			solveInfo.setSolveCostTime(req.getSolveCostTime());
 
+			if (!iSolveService.solveJudge(req.getAccountId(), req.getProblemId())) {
 				ans.setData(iSolveService.submitSolve(solveInfo));
-
-				if (ans.getData()) {
-					ans.setMsg("答案正确");
-					ans.setCode(ResultBean.SUCCESS);
-				} else {
-					ans.setMsg("提交失败");
-					ans.setCode(ResultBean.FAIL);
-				}
-			} else {
-				ans.setData(null);
-				ans.setMsg("答案错误");
-				ans.setCode(ResultBean.FAIL);
 			}
+			ans.setMsg("答案正确");
+			ans.setCode(ResultBean.SUCCESS);
 		} else {
 			ans.setData(null);
-			ans.setMsg("重复提交");
+			ans.setMsg("答案错误");
 			ans.setCode(ResultBean.FAIL);
 		}
+
 		return ans;
 	}
 
+	@CrossOrigin
 	@PostMapping("/judge")
 	public ResultBean<Boolean> solveJudge(@RequestBody SolveJudgeReq req) {
 		ResultBean<Boolean> ans = new ResultBean<Boolean>();

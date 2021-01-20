@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.seg02.oursudoku.info.RoomMemberInfo;
 import com.seg02.oursudoku.util.MyBeanUtils;
 import lombok.Data;
@@ -33,4 +34,10 @@ public class RoomMember implements Serializable {
 	private Integer timecost;
 
 	private Double percentage;
+
+	public RoomMemberInfo change() {
+		RoomMemberInfo roomMemberInfo = new RoomMemberInfo();
+		MyBeanUtils.copyProperties(this, roomMemberInfo);
+		return roomMemberInfo;
+	}
 }

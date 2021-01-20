@@ -44,6 +44,8 @@ public interface IRoomMemberService {
 	 */
 	public Boolean putMessage(Integer roomId, String accountId, Integer timecost, Double percentage);
 
+	public Boolean getMessage(Integer roomId, String accountId);
+
 
 	/**
 	 * 返回房间内比赛所有选手的进度信息
@@ -51,7 +53,8 @@ public interface IRoomMemberService {
 	 * @param roomId
 	 * @return
 	 */
-	public List<RoomMemberInfo> getMessage(Integer roomId);
+	public List<RoomMemberInfo> getMessages(Integer roomId);
 
 	public List<String> getRoomMessage(Integer roomId);
+
 }

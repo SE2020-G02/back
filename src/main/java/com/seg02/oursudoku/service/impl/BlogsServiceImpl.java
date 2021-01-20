@@ -71,7 +71,7 @@ public class BlogsServiceImpl extends ServiceImpl<BlogsMapper, Blogs> implements
 	@Override
 	public BlogInfo creatBlog(String Aid, String Pid, String Message) {
 		BlogInfo blogInfo = new BlogInfo();
-		blogInfo.setBlogId(String.format("%04d", blogsMapper.selectMaxBid()));
+		blogInfo.setBlogId(String.format("%04d", blogsMapper.selectMaxBid() + 1));
 		blogInfo.setBloBlogId(blogInfo.getBlogId());
 		blogInfo.setProblemId(Pid);
 		blogInfo.setBlogMessage(Message);

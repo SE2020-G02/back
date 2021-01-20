@@ -31,7 +31,12 @@ public class SolveServiceImpl implements ISolveService {
 
 	@Override
 	public Integer getSolveCount(String problemId) {
-		return solveMapper.selectSolveCount(problemId);
+		Integer ans = solveMapper.selectSolveCount(problemId);
+		if (ans == null) {
+			return 0;
+		} else {
+			return ans;
+		}
 	}
 
 	@Override
@@ -41,7 +46,7 @@ public class SolveServiceImpl implements ISolveService {
 
 	@Override
 	public Boolean solveJudge(String Pid, String Aid) {
-		Boolean ans = solveMapper.selectSolve(Pid, Aid);
+		Integer ans = solveMapper.selectSolve(Pid, Aid);
 		if (ans == null) {
 			return false;
 		} else {

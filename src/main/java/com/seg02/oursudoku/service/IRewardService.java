@@ -20,4 +20,5 @@ public interface IRewardService extends IService<Reward> {
 
 	public Boolean creatReward(RewardInfo rewardInfo);
 
+	public void solve(String rewardID);
 }

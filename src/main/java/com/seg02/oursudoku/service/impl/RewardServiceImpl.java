@@ -46,4 +46,9 @@ public class RewardServiceImpl extends ServiceImpl<RewardMapper, Reward> impleme
 		rewardMapper.insertReward(rewardInfo.getRewardId(), rewardInfo.getProblemId(), rewardInfo.getRewardMoney());
 		return rewardMapper.selectByRid(rewardInfo.getRewardId()) != null;
 	}
+
+	@Override
+	public void solve(String rewardID) {
+		rewardMapper.updateState(rewardID);
+	}
 }

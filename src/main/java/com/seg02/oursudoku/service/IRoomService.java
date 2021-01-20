@@ -4,6 +4,7 @@ import com.seg02.oursudoku.entity.Room;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.seg02.oursudoku.info.RoomInfo;
 
+import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface IRoomService extends IService<Room> {
 	 * @param roomLevel
 	 * @return
 	 */
-	public List<RoomInfo> pageLevel(Integer roomLevel, String accountId);
+	public List<RoomInfo> pageLevel(Integer roomLevel, String accountId) throws ParseException;
 
-	public RoomInfo roomState(String accountId, String roomState);
+	public List<RoomInfo> roomState(String accountId, String roomState) throws ParseException;
 }

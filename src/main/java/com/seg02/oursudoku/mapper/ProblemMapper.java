@@ -27,5 +27,7 @@ public interface ProblemMapper extends BaseMapper<Problem> {
 
 	List<String> selectProblemByAid(@Param("Aid") String Aid);
 
+	Problem judge(@Param("panes") String panes);
+
 
 }
